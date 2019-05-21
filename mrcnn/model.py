@@ -2436,7 +2436,13 @@ class MaskRCNN():
         # How many detections do we have?
         # Detections array is padded with zeros. Find the first class_id == 0.
         zero_ix = np.where(detections[:, 4] == 0)[0]
+        print(detections.shape)
+#         print(detections[:1, :])
+#         print(detections[-1:, :])
+#         zero_ix = np.where(((detections[:, 5] <= .8) & (detections[:, 4] != 0)) | (detections[:, 4] == 0))[0]
         N = zero_ix[0] if zero_ix.shape[0] > 0 else detections.shape[0]
+
+
 
         # Extract boxes, class_ids, scores, and class-specific masks
         boxes = detections[:N, :4]

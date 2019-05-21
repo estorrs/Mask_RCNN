@@ -135,6 +135,7 @@ class NucleusConfig(Config):
     # ROIs kept after non-maximum supression (training and inference)
     POST_NMS_ROIS_TRAINING = 1000
     POST_NMS_ROIS_INFERENCE = 2000
+#    POST_NMS_ROIS_INFERENCE = 10000
 
     # Non-max suppression threshold to filter RPN proposals.
     # You can increase this during training to generate more propsals.
@@ -199,11 +200,13 @@ class NucleusDataset(utils.Dataset):
         # "val": use hard-coded list above
         # "train": use data from stage1_train minus the hard-coded list above
         # else: use the data from the specified sub-directory
-        assert subset in ["train", "val", "stage1_train", "stage1_test", "stage2_test"]
+
+        #assert subset in ["train", "val", "stage1_train", "stage1_test", "stage2_test"]
         subset_dir = "stage1_train" if subset in ["train", "val"] else subset
         dataset_dir = os.path.join(dataset_dir, subset_dir)
         if subset == "val":
             image_ids = VAL_IMAGE_IDS
+            #image_ids = ['hard_test']
         else:
             # Get image ids from directory names
             image_ids = next(os.walk(dataset_dir))[1]

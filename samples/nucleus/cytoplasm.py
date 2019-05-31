@@ -69,8 +69,10 @@ RESULTS_DIR = os.path.join(ROOT_DIR, "results/cytoplasm/")
 # The dataset doesn't have a standard train/val split, so I picked
 # a variety of images to surve as a validation set.
 VAL_IMAGE_IDS = [
-        'jw-1h-3',
-        'jw-2h-2'
+    '30',
+    '40',
+    '51',
+    '67'
 ]
 
 
@@ -90,7 +92,8 @@ class NucleusConfig(Config):
     NUM_CLASSES = 1 + 1  # Background + cytoplasm
 
     # Number of training and validation steps per epoch
-    STEPS_PER_EPOCH = (657 - len(VAL_IMAGE_IDS)) // IMAGES_PER_GPU
+    #STEPS_PER_EPOCH = (657 - len(VAL_IMAGE_IDS)) // IMAGES_PER_GPU
+    STEPS_PER_EPOCH = (59 - len(VAL_IMAGE_IDS)) // IMAGES_PER_GPU
     VALIDATION_STEPS = max(1, len(VAL_IMAGE_IDS) // IMAGES_PER_GPU)
 
     # Don't exclude based on confidence. Since we have two classes
@@ -262,14 +265,14 @@ def train(model, dataset_dir, subset):
     print("Train network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=20,
+                epochs=40,
                 augmentation=augmentation,
                 layers='heads')
 
     print("Train all layers")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=40,
+                epochs=80,
                 augmentation=augmentation,
                 layers='all')
 
